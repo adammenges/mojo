@@ -1,4 +1,5 @@
 use Mojo::Base -strict;
+use IO::Capture::Stderr;
 
 use Test::More;
 use Mojo::DOM;
@@ -32,6 +33,13 @@ is "$dom", $temp_string, 'Same as before, unchanged.';
 # Makes sure finding an element that doesn't exist still works.
 my $temp_dom = $dom->find('body');
 is((length "$temp_dom"), 0, "element doesn't exist.");
+
+my $capture = IO::Capture::Stderr->new();
+$capture->start();
+$dom = Mojo::DOM->new->parse($temp_string);
+$capture->stop();
+my $line = $capture->read;
+print STDERR "$line";
 
 # Simple nesting with healing (tree structure)
 $dom = Mojo::DOM->new->parse(<<EOF);

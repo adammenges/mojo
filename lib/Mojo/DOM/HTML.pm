@@ -78,7 +78,7 @@ my %INLINE = map { $_ => 1 } (
 sub parse {
   my ($self, $html) = @_;
 
-  $html //= '';
+  # $html //= '';
 
   my $current = my $tree = ['root'];
   while ($html =~ m/\G$TOKEN_RE/gcs) {
